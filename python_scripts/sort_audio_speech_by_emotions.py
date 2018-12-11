@@ -23,5 +23,3 @@ for path in path_list:
         os.mkdir(output_dir_emotion)
 
     copyfile(path, os.path.join(output_dir_emotion, filename))
-
-print('Voila')

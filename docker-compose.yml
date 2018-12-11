@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  deb:
+      # build: .
+      image: openvoices
+      command: ./install.sh
+      volumes:
+        - .:/home/deb/
+
+
