@@ -1,0 +1,12 @@
+output*
+Audio_*
+inst
+Notes
+opensmile*
+.idea
+.DS_*
+.venv
+*.log
+tests
+test
+pyAudioAnalysis.egg-info
