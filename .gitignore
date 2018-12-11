@@ -10,6 +10,7 @@ opensmile*
 tests
 test
 pyAudioAnalysis.egg-info
+python_scripts/Models
+python_scripts/models
 *.pyc
 *.arff
-python_scripts/Models
