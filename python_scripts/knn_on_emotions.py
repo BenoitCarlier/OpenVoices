@@ -3,6 +3,7 @@ import os
 
 from python_scripts import tools
 
+
 emotion_list = tools.MAP_EMOTION.values()
 # emotion_list = []
 # emotion_list.append('angry')
@@ -12,6 +13,8 @@ emotion_list = tools.MAP_EMOTION.values()
 # emotion_list.append('disgust')
 # emotion_list.append('fearful')
 # emotion_list.append('surprised')
+# emotion_list.append('sad')
+
 
 input_dir = 'output_by_emotion'
 
@@ -23,3 +26,4 @@ dir_list = [os.path.join(path_base, emo) for emo in emotion_list]
 
 aT.featureAndTrain(dir_list, 1.0, 1.0, aT.shortTermWindow, aT.shortTermStep, "knn",
                    os.path.join(output_dir, output_model_name))
+
