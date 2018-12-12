@@ -95,11 +95,11 @@ def print_data(params, ac_all, f1_all, precision_classes_all, recall_classes_all
         print("")
 
 
-def plot_confusion_matrix(cm, class_names, title):
+def plot_confusion_matrix(cm, class_names, title, cmap = plt.cm.Blues):
     data = numpy.array([[100.0 * cm[i][j] / numpy.sum(cm[i]) for j in
                          range(len(class_names))] for i, c in enumerate(class_names)])
     fig, ax = plt.subplots()
-    im = ax.imshow(data, cmap='cool')
+    im = ax.imshow(data, cmap=cmap)
     ax.set_title(title, pad=50.0)
 
     # Create colorbar
@@ -145,9 +145,12 @@ def plot_confusion_matrix(cm, class_names, title):
 
     # Loop over the data and create a `Text` for each "pixel".
     # Change the text's color depending on the data.
+    thresh = cm.max() / 2
     for i in range(data.shape[0]):
         for j in range(data.shape[1]):
-            im.axes.text(j, i, valfmt(data[i, j], None), **kw)
+            im.axes.text(j, i, valfmt(data[i, j], None),
+                         color="white" if cm[i, j] > thresh else "black",
+                         **kw)
     plt.show()
 
 
@@ -179,4 +182,4 @@ if __name__ == '__main__':
     print("\n")
 
     printConfusionMatrix(confusion_matrix, class_name_list)
-    plot_confusion_matrix(confusion_matrix, class_name_list, title_confusion_graph)
+    plot_confusion_matrix(confusion_matrix, class_name_list, pickle_file_name)
