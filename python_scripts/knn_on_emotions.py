@@ -13,10 +13,11 @@ emotion_list = tools.MAP_EMOTION.values()
 # emotion_list.append('disgust')
 # emotion_list.append('fearful')
 # emotion_list.append('surprised')
+# emotion_list.append('surprised')
 # emotion_list.append('sad')
 
 
-input_dir = 'output_by_emotion'
+input_dir = 'output_by_emotion_tronque'
 
 output_dir = 'Models'
 output_model_name = 'knnEmotion7'

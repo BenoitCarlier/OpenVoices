@@ -4,8 +4,8 @@ import glob
 from python_scripts.tools import get_emotion
 
 dirname = os.path.dirname(os.getcwd())
-outputdir = 'output_by_emotion'
-audio_src_name = 'Audio_Speech_Actors_01-24'
+outputdir = 'output_by_emotion_tronque'
+audio_src_name = 'output_tronque'
 audio_speech_path = os.path.join(dirname, audio_src_name)
 
 

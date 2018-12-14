@@ -43,6 +43,7 @@ for path in path_list:
     if (not os.path.isdir(os.path.join(dirname, outputdir, actor_name))):
         os.mkdir(os.path.join(dirname, outputdir, actor_name))
         print('directory ' + actor_name + ' créé ')
+    [Fs, x] = audioBasicIO.readAudioFile(path)
     new_x = x[0:min_len]
-    sc_wav.write(out_path,Fs0,new_x)
+    sc_wav.write(out_path,Fs,new_x)
 
