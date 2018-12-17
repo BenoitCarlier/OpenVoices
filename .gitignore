@@ -18,3 +18,5 @@ python_scripts/models
 .pkl
 
 __pycache__
+
+test.py
