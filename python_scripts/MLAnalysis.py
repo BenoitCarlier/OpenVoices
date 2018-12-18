@@ -1,6 +1,7 @@
 import pickle
 
 from python_scripts import visualisation_tools
+from pprint import pformat
 
 MAP_DUMP_INFO = {
     'knn': [
@@ -15,20 +16,29 @@ MAP_DUMP_INFO = {
         'st_win',
         'st_step',
         'compute_beat'
+    ],
+    'default': [
+        'MEAN',
+        'STD',
+        'classNames',
+        'bestParam',
+        'mt_win',
+        'mt_step',
+        'st_win',
+        'st_step',
+        'compute_beat',
     ]
 }
 
-MAP_DUMP_MORE_INFO = {
-    'knn': [
-        'Params',
-        'ac_all',
-        'f1_all',
-        'precision_classes_all',
-        'recall_classes_all',
-        'f1_classes_all',
-        'confusion_matrix'
-    ]
-}
+MAP_DUMP_MORE_INFO = [
+    'Params',
+    'ac_all',
+    'f1_all',
+    'precision_classes_all',
+    'recall_classes_all',
+    'f1_classes_all',
+    'confusion_matrix'
+]
 
 
 class MLAnalysis:
@@ -43,14 +53,19 @@ class MLAnalysis:
         self.__read_file_more_info()
 
     def __read_file(self):
-        with open(self.pickle_file_name, 'rb') as f:
+        file_name = self.pickle_file_name
+        if self.model_type != 'knn':
+            file_name += 'MEANS'
+
+        with open(file_name, 'rb') as f:
             pickle_obj = pickle.Unpickler(f)
-            self.info = {name: pickle_obj.load() for name in MAP_DUMP_INFO[model_type]}
+            dump_info = MAP_DUMP_INFO.get(model_type) or MAP_DUMP_INFO['default']
+            self.info = {name: pickle_obj.load() for name in dump_info}
 
     def __read_file_more_info(self):
         with open(self.pickle_file_name + '.more_info', 'rb') as f:
             pickle_obj = pickle.Unpickler(f)
-            self.more_info = {name: pickle_obj.load() for name in MAP_DUMP_MORE_INFO[model_type]}
+            self.more_info = {name: pickle_obj.load() for name in MAP_DUMP_MORE_INFO}
 
     def global_analysis(self):
         class_name_list = self.info['classNames']
@@ -62,8 +77,8 @@ class MLAnalysis:
         f1_classes_all = self.more_info['f1_classes_all']
         confusion_matrix = self.more_info['confusion_matrix']
         data_frame = visualisation_tools.result_data_to_dataframe(params, ac_all, f1_all, precision_classes_all,
-                                                                 recall_classes_all,
-                                                                 f1_classes_all, class_name_list)
+                                                                  recall_classes_all,
+                                                                  f1_classes_all, class_name_list)
         data_frame.to_csv(pickle_file_name + ".csv")
 
         l_desc = ['bestParam', 'mt_win', 'mt_step', 'st_win', 'st_step', 'compute_beat']
@@ -72,8 +87,9 @@ class MLAnalysis:
 
 
 if __name__ == '__main__':
-    pickle_file_name = 'Models/knnEmotion7'
     model_type = 'knn'
+
+    pickle_file_name = 'Models/{}Emotion7'.format(model_type)
 
     ml_analysis = MLAnalysis(pickle_file_name, model_type)
     ml_analysis.global_analysis()
