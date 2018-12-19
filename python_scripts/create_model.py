@@ -18,7 +18,7 @@ EMOTION_LIST = tools.MAP_EMOTION.values()
 input_dir = 'output_by_emotion'
 output_dir = 'Models'
 model_name = 'Emotion7'
-model_type = MODEL_TYPES[1]
+model_type = MODEL_TYPES[3]
 output_name = model_type + model_name
 
 path_base = os.path.join(os.path.dirname(os.getcwd()), input_dir)
