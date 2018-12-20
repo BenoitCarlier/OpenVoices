@@ -396,6 +396,7 @@ def featureAndTrain(list_of_dirs, mt_win, mt_step, st_win, st_step,
         cPickle.dump(MEAN, fo, protocol=cPickle.HIGHEST_PROTOCOL)
         cPickle.dump(STD, fo, protocol=cPickle.HIGHEST_PROTOCOL)
         cPickle.dump(classNames, fo, protocol=cPickle.HIGHEST_PROTOCOL)
+        cPickle.dump(bestParam, fo, protocol=cPickle.HIGHEST_PROTOCOL)
         cPickle.dump(mt_win, fo, protocol=cPickle.HIGHEST_PROTOCOL)
         cPickle.dump(mt_step, fo, protocol=cPickle.HIGHEST_PROTOCOL)
         cPickle.dump(st_win, fo, protocol=cPickle.HIGHEST_PROTOCOL)
@@ -712,17 +713,19 @@ def evaluateclassifier(features, class_names, n_exp, classifier_name, Params, pa
             print("\t best Acc", end="")
         print("")
 
+    # Dump confusion matrix in pickle
+    with open(model_name + '.more_info', 'wb') as f:
+        pickle.dump(Params, f)
+        pickle.dump(ac_all, f)
+        pickle.dump(f1_all, f)
+        pickle.dump(precision_classes_all, f)
+        pickle.dump(recall_classes_all, f)
+        pickle.dump(f1_classes_all, f)
+        pickle.dump(cms_all[best_ac_ind], f)
+
     if parameterMode == 0:    # keep parameters that maximize overall classification accuracy:
         print("Confusion Matrix:")
         printConfusionMatrix(cms_all[best_ac_ind], class_names)
-        with open(model_name+'.more_info', 'wb') as f:
-            pickle.dump(Params, f)
-            pickle.dump(ac_all, f)
-            pickle.dump(f1_all, f)
-            pickle.dump(precision_classes_all, f)
-            pickle.dump(recall_classes_all, f)
-            pickle.dump(f1_classes_all, f)
-            pickle.dump(cms_all[best_ac_ind], f)
         return Params[best_ac_ind]
     elif parameterMode == 1:  # keep parameters that maximize overall f1 measure:
         print("Confusion Matrix:")
