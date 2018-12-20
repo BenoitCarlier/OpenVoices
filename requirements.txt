@@ -6,3 +6,5 @@ hmmlearn
 simplejson
 eyed3
 pydub
+keras
+tensorflow
