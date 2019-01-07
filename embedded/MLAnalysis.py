@@ -1,3 +1,4 @@
+import pickle
 from pyAudioAnalysis import audioTrainTest as aT
 
 MAP_DUMP_INFO = {
@@ -27,7 +28,7 @@ class MLAnalysis:
     def __read_file(self):
         with open(self.model_path, 'rb') as f:
             pickle_obj = pickle.Unpickler(f)
-            self.info = {name: pickle_obj.load() for name in MAP_DUMP_INFO[model_type]}
+            self.info = {name: pickle_obj.load() for name in MAP_DUMP_INFO[self.model_type]}
 
     @property
     def emotions(self):

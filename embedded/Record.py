@@ -10,17 +10,23 @@ class Record:
         :param output_dir:
         :param kwargs:
         """
-        self.record_seconds = kwargs.get('record_seconds', 5)  # Record time
+        self.record_seconds = int(kwargs.get('record_seconds', 5))  # Record time
         self.format = kwargs.get('format', pyaudio.paInt16)  # data type formate
-        self.channels = kwargs.get('channels', 2)  # Adjust to your number of channels
-        self.rate = kwargs.get('rate', 44100)  # Sample Rate
-        self.chunk = kwargs.get('chunk', 1024)  # Block Size
+        self.channels = int(kwargs.get('channels', 2)) # Adjust to your number of channels
+        self.rate = int(kwargs.get('rate', 44100))  # Sample Rate
+        self.chunk = int(kwargs.get('chunk', 1024))  # Block Size
 
         # Startup pyaudio instance
         self.audio = pyaudio.PyAudio()
 
     def record(self, output_file):
         # start Recording
+        print("record_seconds: {}".format(self.record_seconds))
+        print("format: {}".format(self.format))
+        print("channels: {}".format(self.channels))
+        print("rate: {}".format(self.rate))
+        print("chunk: {}".format(self.chunk))
+
         stream = self.audio.open(format=self.format, channels=self.channels,
                             rate=self.rate, input=True,
                             frames_per_buffer=self.chunk)
@@ -42,7 +48,7 @@ class Record:
         # Write your new .wav file with built in Python 3 Wave module
         waveFile = wave.open(output_file, 'wb')
         waveFile.setnchannels(self.channels)
-        waveFile.setsampwidth(audio.get_sample_size(self.format))
+        waveFile.setsampwidth(self.audio.get_sample_size(self.format))
         waveFile.setframerate(self.rate)
         waveFile.writeframes(b''.join(frames))
         waveFile.close()

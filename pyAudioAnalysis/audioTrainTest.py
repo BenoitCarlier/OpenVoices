@@ -324,7 +324,8 @@ def featureAndTrain(list_of_dirs, mt_win, mt_step, st_win, st_step,
 
     # STEP B: classifier Evaluation and Parameter Selection:
     if classifier_type == "svm" or classifier_type == "svm_rbf":
-        classifier_par = numpy.array([0.001, 0.01,  0.5, 1.0, 5.0, 10.0, 20.0])
+        # classifier_par = numpy.array([0.001, 0.01,  0.5, 1.0, 5.0, 10.0, 20.0])
+        classifier_par = numpy.array([7.0, 8.0, 9.0, 10.0, 11.0, 12.0])
     elif classifier_type == "randomforest":
         classifier_par = numpy.array([10, 25, 50, 100,200,500])
     elif classifier_type == "knn":

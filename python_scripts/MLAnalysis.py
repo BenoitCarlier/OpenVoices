@@ -113,8 +113,8 @@ def make_model(input_dir, output_path):
 if __name__ == '__main__':
     input_dir = 'output_by_emotion'
     output_dir = 'Models'
-    model_name = 'Emotion7'
-    model_type = MODEL_TYPES[5]
+    model_name = 'Emotion7NewParam'
+    model_type = MODEL_TYPES[2]
     output_name = model_type + model_name
     model_to_create_path = os.path.join(output_dir, output_name)
 
