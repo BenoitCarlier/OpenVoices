@@ -35,6 +35,10 @@ class MLAnalysis:
         return self.info['classNames']
 
     def get_emotion(self, file_path):
+        """
+        :param file_path:
+        :return: (Result, P, classNames)
+        """
         return aT.fileClassification(file_path,
                                      self.model_path,
                                      self.model_type)

@@ -941,8 +941,10 @@ def fileClassification(inputFile, model_name, model_type):
     x = audioBasicIO.stereo2mono(x)
 
     if isinstance(x, int):                                 # audio file IO problem
+        print("audio file IO problem:  audio int instance")
         return (-1, -1, -1)
     if x.shape[0] / float(Fs) <= mt_win:
+        print("audio file IO problem:  x.shape[0] / float(Fs) <= mt_win")
         return (-1, -1, -1)
 
     # feature extraction:
