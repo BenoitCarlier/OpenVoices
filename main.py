@@ -1,6 +1,7 @@
 from embedded.LightInMotion import LightInMotion
 from embedded.MLAnalysis import MLAnalysis
 from embedded.Record import Record
+from time import sleep
 
 ColorDict = {"black": 0x000000,
              "white": 0xFFFFFF,
@@ -37,10 +38,17 @@ if __name__ == '__main__':
 
     base_output_file = 'output_embedded/'
     count = 0
-    while True:
-        current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
-        record.record(current_wav)
-        emotion = ml_analysis.get_emotion(current_wav)[2]
-        print("Emotion: ", end="\t\t")
-        print(emotion)
-        light_in_motion.set_emotion(emotion)
+    try:
+        while True:
+            current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
+            record.record(current_wav)
+            emotion = str(ml_analysis.get_emotion(current_wav)[2])
+            light_in_motion.set_emotion(emotion)
+            print("Emotion: ", end="\t\t")
+            print(emotion)
+
+            count += 1
+            sleep(2)
+    except KeyboardInterrupt:
+        record.terminate()
+

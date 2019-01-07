@@ -16,10 +16,10 @@ class Record:
         self.rate = int(kwargs.get('rate', 44100))  # Sample Rate
         self.chunk = int(kwargs.get('chunk', 1024))  # Block Size
 
-        # Startup pyaudio instance
-        self.audio = pyaudio.PyAudio()
 
     def record(self, output_file):
+        # Startup pyaudio instance
+        self.audio = pyaudio.PyAudio()
         # start Recording
         print("record_seconds: {}".format(self.record_seconds))
         print("format: {}".format(self.format))
@@ -37,13 +37,12 @@ class Record:
         for i in range(0, int(self.rate / self.chunk * self.record_seconds)):
             data = stream.read(self.chunk)
             frames.append(data)
-        print
-        "finished recording"
+            print(i)
+        print("finished recording")
 
         # Stop Recording
         stream.stop_stream()
         stream.close()
-        self.audio.terminate()
 
         # Write your new .wav file with built in Python 3 Wave module
         waveFile = wave.open(output_file, 'wb')
@@ -52,4 +51,7 @@ class Record:
         waveFile.setframerate(self.rate)
         waveFile.writeframes(b''.join(frames))
         waveFile.close()
+        self.audio.terminate()
 
+    def terminate(self):
+        print("Record terminated!")
