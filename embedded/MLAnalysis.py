@@ -20,10 +20,11 @@ MAP_DUMP_INFO = {
 
 
 class MLAnalysis:
-    def __init__(self, model_type, model_path):
+    def __init__(self, model_type, model_path, verbose=False):
         self.model_type = model_type
         self.model_path = model_path
         self.info = None
+        self.verbose = verbose
         self.__read_file()
 
     def __read_file(self):
@@ -43,5 +44,6 @@ class MLAnalysis:
         (result_index, P, classNames) = aT.fileClassification(file_path,
                                                               self.model_path,
                                                               self.model_type)
-        print("\nresult_index : {}\nP : {}\nclassNames : {}".format(result_index, P, classNames))
+        if self.verbose:
+            print("\nresult_index : {}\nP : {}\nclassNames : {}".format(result_index, P, classNames))
         return classNames[result_index]

@@ -39,7 +39,10 @@ recording_loop = False
 global count
 count = 0
 
+global record, ml_analysis, light_in_motion, base_output_file
+
 if __name__ == '__main__':
+    global record, ml_analysis, light_in_motion, base_output_file
     ## Init modules
     record = Record(record_seconds=3, channels=1)  # because our mic has only one channel
     ml_analysis = MLAnalysis('knn', 'python_scripts/Models/knnEmotion7')
@@ -82,32 +85,33 @@ if __name__ == '__main__':
 
     @rh.touch.B.press()
     def touch_b(channel):
-        print('Button B pressed')
+        global record, ml_analysis, light_in_motion, base_output_file
         rh.lights.rgb(0, 1, 0)
+        wav_file = "{base}record_manual.wav".format(base=base_output_file)
+        record.record(current_wav)
+        emotion = ml_analysis.get_emotion(wav_file)
+        light_in_motion.set_emotion(emotion)
+
+        print()
+        print("File: {}".format(current_wav))
+        print("Emotion: {}".format(emotion))
 
 
     @rh.touch.B.release()
     def release_b(channel):
-        print('Button B released')
         rh.lights.rgb(0, 0, 0)
 
 
     @rh.touch.C.press()
     def touch_c(channel):
         global recording_loop, count
-        print('Button C pressed')
         recording_loop = not recording_loop
         rh.lights.rgb(0, 0, recording_loop)
         count = 0
-        print("recording_loop: {}".format(recording_loop))
 
 
     @rh.touch.C.release()
     def release_c(channel):
-        # global recording_loop
-        # print('Button C released')
-        # print("recording_loop: {}".format(recording_loop))
-        # rh.lights.rgb(0, 0, 0)
         pass
 
 
@@ -119,8 +123,10 @@ if __name__ == '__main__':
             record.record(current_wav)
             emotion = ml_analysis.get_emotion(current_wav)
             light_in_motion.set_emotion(emotion)
-            print("Emotion: ", end="\t\t")
-            print(emotion)
+
+            print()
+            print("File: {}".format(current_wav))
+            print("Emotion: {}".format(emotion))
 
             count += 1
             sleep(2)
