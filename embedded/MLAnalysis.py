@@ -18,6 +18,17 @@ MAP_DUMP_INFO = {
     ],
     'neural_net': [
         'model'
+    ],
+    'default': [
+        'MEAN',
+        'STD',
+        'classNames',
+        'bestParam',
+        'mt_win',
+        'mt_step',
+        'st_win',
+        'st_step',
+        'compute_beat',
     ]
 }
 
@@ -34,7 +45,8 @@ class MLAnalysis:
     def __read_file(self):
         with open(self.model_path, 'rb') as f:
             pickle_obj = pickle.Unpickler(f)
-            self.info = {name: pickle_obj.load() for name in MAP_DUMP_INFO[self.model_type]}
+            dump_info = MAP_DUMP_INFO.get(self.model_type) or MAP_DUMP_INFO['default']
+            self.info = {name: pickle_obj.load() for name in dump_info}
 
     @property
     def emotions(self):

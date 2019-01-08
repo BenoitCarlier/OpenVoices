@@ -99,7 +99,6 @@ if __name__ == '__main__':
 
         light_in_motion.set_emotion(emotion)
 
-
         led_green = False
         rh.lights.rgb(led_red, led_green, led_blue)
 
@@ -123,6 +122,7 @@ if __name__ == '__main__':
     @rh.touch.C.release()
     def release_c(channel):
         pass
+
 
     ##
 
