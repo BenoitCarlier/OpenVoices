@@ -5,6 +5,7 @@ import numpy as np
 from keras.layers import Dense, Activation, Dropout, LSTM, Embedding
 import os
 import matplotlib.pyplot as plt
+from keras.utils import plot_model
 
 # confirm TensorFlow sees the GPU
 from tensorflow.python.client import device_lib
@@ -79,7 +80,7 @@ history = model.fit(
     validation_split=0.1,
     batch_size=32
 )
-
+#
 plt.plot(history.history['acc'])
 plt.plot(history.history['val_acc'])
 plt.title('model accuracy')
@@ -87,6 +88,9 @@ plt.ylabel('accuracy')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.show()
+
+
+#plot_model(model, to_file='NNet.png', show_shapes=True)
 
 # output_dir = 'models'
 # output_dir_path = os.path.join(os.path.dirname(os.getcwd()), output_dir)
