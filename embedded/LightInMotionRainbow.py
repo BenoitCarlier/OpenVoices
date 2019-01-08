@@ -2,7 +2,7 @@ import rainbowhat as rh
 
 
 class LightInMotionRainbow:
-    def __init__(self, map_emotion_2_color={}, brightness=1, verbose = False):
+    def __init__(self, map_emotion_2_color={}, brightness=1, verbose=False):
         self.map_emotion_2_color = map_emotion_2_color
         self.map_emotion_2_color.setdefault('-1', 0x008080)
         self.brightness = brightness
@@ -42,9 +42,17 @@ class LightInMotionRainbow:
         rh.rainbow.show()
         rh.display.show()
 
-
     def terminate(self):
         self.__clear()
         self.__show()
 
         print("LightInMotionRainbow: terminated")
+
+    def change_brightness(self):
+        self.brightness = self.brightness - 0.1
+        if self.brightness <= 0:
+            self.brightness = 1
+
+        print("Brightness: {}".format(self.brightness))
+        rh.rainbow.set_brightness(self.brightness)
+        rh.rainbow.show()
