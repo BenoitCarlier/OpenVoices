@@ -22,7 +22,7 @@ if (not os.path.isdir(out_dir_path)):
     print('output directory non existant, il a été créé')
     os.mkdir(out_dir_path)
 
-filename_wildcard = os.path.join(audio_speech_path, 'Actor_*/*')
+filename_wildcard = os.path.join(audio_speech_path, 'Actor_*','*')
 path_list = glob.glob(filename_wildcard)
 
 [Fs0, x0] = audioBasicIO.readAudioFile(path_list[0])
@@ -36,7 +36,7 @@ for path in path_list:
         min_len = l
 
 for path in path_list:
-    dir_names = path.split('/')
+    dir_names = path.split('\\')
     filename = dir_names[-1]
     actor_name = dir_names[-2]
     out_path = os.path.join(dirname, outputdir, actor_name, filename)

@@ -23,7 +23,7 @@ for dir in emotion_path_list:
     for file in os.listdir(dir):
         file_path = os.path.join(dir,file)
         [Fs, x] = audioBasicIO.readAudioFile(file_path)
-        F, f_names = audioFeatureExtraction.stFeatureExtraction(x, Fs, 0.200 * Fs, 0.150 * Fs)
+        F, f_names = audioFeatureExtraction.stFeatureExtraction(audioBasicIO.stereo2mono(x), Fs, 0.200 * Fs, 0.150 * Fs)
         audio_list.append(F)
     audio_mat.append(audio_list)
 

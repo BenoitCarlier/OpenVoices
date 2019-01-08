@@ -14,8 +14,12 @@ MAP_DUMP_INFO = {
         'st_win',
         'st_step',
         'compute_beat'
+    ],
+    'neural_net': [
+        'model'
     ]
 }
+
 
 
 class MLAnalysis:
