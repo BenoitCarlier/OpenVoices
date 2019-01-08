@@ -102,19 +102,20 @@ if __name__ == '__main__':
         print("recording_loop: {}".format(recording_loop))
         rh.lights.rgb(0, 0, 0)
 
-        count = 0
 
-        while recording_loop:
-            current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
-            record.record(current_wav)
-            emotion = ml_analysis.get_emotion(current_wav)
-            light_in_motion.set_emotion(emotion)
-            print("Emotion: ", end="\t\t")
-            print(emotion)
-
-            count += 1
-            sleep(2)
-
+    count = 0
 
     while True:
-        pass
+        current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
+        record.record(current_wav)
+        emotion = ml_analysis.get_emotion(current_wav)
+        light_in_motion.set_emotion(emotion)
+        print("Emotion: ", end="\t\t")
+        print(emotion)
+
+        count += 1
+        sleep(2)
+
+
+    # while True:
+    #     pass
