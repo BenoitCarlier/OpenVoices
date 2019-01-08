@@ -39,6 +39,8 @@ class MLAnalysis:
         :param file_path:
         :return: (Result, P, classNames)
         """
-        return aT.fileClassification(file_path,
-                                     self.model_path,
-                                     self.model_type)
+        results = aT.fileClassification(file_path,
+                                        self.model_path,
+                                        self.model_type)
+        print("Results : {}".format(results))
+        return results

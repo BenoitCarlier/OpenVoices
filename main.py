@@ -30,7 +30,7 @@ NUM_PIXEL = 8
 BRIGHTNESS = 0.2
 
 if __name__ == '__main__':
-    record = Record(record_seconds=1, channels=1)  # because our mic has only one channel
+    record = Record(record_seconds=3, channels=1)  # because our mic has only one channel
     ml_analysis = MLAnalysis('knn', 'python_scripts/Models/knnEmotion7')
 
     # light_in_motion = LightInMotion(map_emotion_2_color=MAP_EMOTION_2_COLOR,

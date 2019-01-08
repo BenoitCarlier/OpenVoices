@@ -12,15 +12,16 @@ class Record:
         """
         self.record_seconds = int(kwargs.get('record_seconds', 5))  # Record time
         self.format = kwargs.get('format', pyaudio.paInt16)  # data type formate
-        self.channels = int(kwargs.get('channels', 2)) # Adjust to your number of channels
+        self.channels = int(kwargs.get('channels', 2))  # Adjust to your number of channels
         self.rate = int(kwargs.get('rate', 44100))  # Sample Rate
         self.chunk = int(kwargs.get('chunk', 1024))  # Block Size
-
+        self.input_device_index = int(kwargs.get('input_device_index', 2))
 
     def record(self, output_file):
         # Startup pyaudio instance
         self.audio = pyaudio.PyAudio()
         # start Recording
+        print()
         print("record_seconds: {}".format(self.record_seconds))
         print("format: {}".format(self.format))
         print("channels: {}".format(self.channels))
@@ -28,8 +29,9 @@ class Record:
         print("chunk: {}".format(self.chunk))
 
         stream = self.audio.open(format=self.format, channels=self.channels,
-                            rate=self.rate, input=True,
-                            frames_per_buffer=self.chunk)
+                                 rate=self.rate, input=True,
+                                 frames_per_buffer=self.chunk,
+                                 input_device_index=self.input_device_index)
         print("recording...")
         frames = []
 
@@ -37,7 +39,6 @@ class Record:
         for i in range(0, int(self.rate / self.chunk * self.record_seconds)):
             data = stream.read(self.chunk)
             frames.append(data)
-            print(i)
         print("finished recording")
 
         # Stop Recording
