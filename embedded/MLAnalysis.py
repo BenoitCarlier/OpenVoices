@@ -1,4 +1,5 @@
 import pickle
+
 from pyAudioAnalysis import audioTrainTest as aT
 
 MAP_DUMP_INFO = {
@@ -37,10 +38,10 @@ class MLAnalysis:
     def get_emotion(self, file_path):
         """
         :param file_path:
-        :return: (Result, P, classNames)
+        :return: emotion (str)
         """
-        results = aT.fileClassification(file_path,
-                                        self.model_path,
-                                        self.model_type)
-        print("Results : {}".format(results))
-        return results
+        (result_index, P, classNames) = aT.fileClassification(file_path,
+                                                              self.model_path,
+                                                              self.model_type)
+        print("\nresult_index : {}\nP : {}\nclassNames : {}".format(result_index, P, classNames))
+        return classNames[result_index]
