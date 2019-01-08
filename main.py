@@ -3,6 +3,8 @@ import signal
 import sys
 from time import sleep
 
+import rainbowhat as rh
+
 from embedded.LightInMotionRainbow import LightInMotionRainbow
 from embedded.MLAnalysis import MLAnalysis
 from embedded.Record import Record
@@ -56,6 +58,43 @@ if __name__ == '__main__':
 
 
     signal.signal(signal.SIGINT, signal_handler)
+
+
+    @rh.touch.A.press()
+    def touch_a(channel):
+        print('Button A pressed')
+        rh.lights.rgb(1, 0, 0)
+
+
+    @rh.touch.A.release()
+    def release_a(channel):
+        print('Button A released')
+        rh.lights.rgb(0, 0, 0)
+
+
+    @rh.touch.B.press()
+    def touch_b(channel):
+        print('Button B pressed')
+        rh.lights.rgb(1, 1, 0)
+
+
+    @rh.touch.B.release()
+    def release_b(channel):
+        print('Button B released')
+        rh.lights.rgb(0, 0, 0)
+
+
+    @rh.touch.C.press()
+    def touch_b(channel):
+        print('Button C pressed')
+        rh.lights.rgb(1, 1, 1)
+
+
+    @rh.touch.C.release()
+    def release_c(channel):
+        print('Button C released')
+        rh.lights.rgb(0, 0, 0)
+
 
     while True:
         current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)

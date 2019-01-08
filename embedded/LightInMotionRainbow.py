@@ -36,16 +36,3 @@ class LightInMotionRainbow:
         rh.display.show()
 
         print("LightInMotionRainbow: terminated")
-
-    @staticmethod
-    @rh.touch.A.press()
-    def touch_a(channel):
-        print('Button A pressed')
-        rh.lights.rgb(1, 0, 0)
-
-
-    @staticmethod
-    @rh.touch.A.release()
-    def release_a(channel):
-        print('Button A released')
-        rh.lights.rgb(0, 0, 0)
