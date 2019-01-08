@@ -1,3 +1,6 @@
+import os
+import signal
+import sys
 from time import sleep
 
 from embedded.LightInMotionRainbow import LightInMotionRainbow
@@ -42,17 +45,25 @@ if __name__ == '__main__':
 
     base_output_file = 'output_embedded/'
     count = 0
-    try:
-        while True:
-            current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
-            record.record(current_wav)
-            emotion = ml_analysis.get_emotion(current_wav)
-            light_in_motion.set_emotion(emotion)
-            print("Emotion: ", end="\t\t")
-            print(emotion)
 
-            count += 1
-            sleep(2)
-    except KeyboardInterrupt:
+
+    def signal_handler(signal, frame):
+        print('You pressed Ctrl+C! - EXIT CLEMENT')
         record.terminate()
         light_in_motion.terminate()
+        os.system("stty -cbreak echo")
+        sys.exit(0)
+
+
+    signal.signal(signal.SIGINT, signal_handler)
+
+    while True:
+        current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
+        record.record(current_wav)
+        emotion = ml_analysis.get_emotion(current_wav)
+        light_in_motion.set_emotion(emotion)
+        print("Emotion: ", end="\t\t")
+        print(emotion)
+
+        count += 1
+        sleep(2)

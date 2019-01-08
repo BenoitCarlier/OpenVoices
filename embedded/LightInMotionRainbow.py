@@ -29,6 +29,7 @@ class LightInMotionRainbow:
         rh.display.show()
 
     def terminate(self):
-        print("Terminate LightInMotionRainbow")
+        print("LightInMotionRainbow: terminated")
+
         rh.rainbow.clear()
         rh.display.clear()
