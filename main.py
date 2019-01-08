@@ -34,6 +34,9 @@ MAP_EMOTION_2_COLOR = {
 NUM_PIXEL = 8
 BRIGHTNESS = 0.2
 
+global recording_loop
+recording_loop = False
+
 if __name__ == '__main__':
     record = Record(record_seconds=3, channels=1)  # because our mic has only one channel
     ml_analysis = MLAnalysis('knn', 'python_scripts/Models/knnEmotion7')
@@ -46,8 +49,6 @@ if __name__ == '__main__':
                                            brightness=BRIGHTNESS)
 
     base_output_file = 'output_embedded/'
-    count = 0
-
 
     def signal_handler(signal, frame):
         print('\nYou pressed Ctrl+C! - EXIT')
@@ -58,8 +59,6 @@ if __name__ == '__main__':
 
 
     signal.signal(signal.SIGINT, signal_handler)
-
-    recording_loop = False
 
 
     @rh.touch.A.press()
@@ -87,7 +86,8 @@ if __name__ == '__main__':
 
 
     @rh.touch.C.press()
-    def touch_c(channel, recording_loop):
+    def touch_c(channel):
+        global recording_loop
         print('Button C pressed')
         print("recording_loop: {}".format(recording_loop))
 
@@ -96,10 +96,13 @@ if __name__ == '__main__':
 
 
     @rh.touch.C.release()
-    def release_c(channel, recording_loop):
+    def release_c(channel):
+        global recording_loop
         print('Button C released')
         print("recording_loop: {}".format(recording_loop))
         rh.lights.rgb(0, 0, 0)
+
+        count = 0
 
         while recording_loop:
             current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
