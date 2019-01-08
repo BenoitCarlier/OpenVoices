@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
 
     def signal_handler(signal, frame):
-        print('You pressed Ctrl+C! - EXIT CLEMENT')
+        print('\nYou pressed Ctrl+C! - EXIT')
         record.terminate()
         light_in_motion.terminate()
         os.system("stty -cbreak echo")
