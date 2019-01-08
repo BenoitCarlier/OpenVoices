@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
 
     @rh.touch.C.press()
-    def touch_c(channel):
+    def touch_c(channel, recording_loop):
         print('Button C pressed')
         rh.lights.rgb(0, 0, 1)
         recording_loop = not recording_loop
@@ -108,3 +108,7 @@ if __name__ == '__main__':
 
             count += 1
             sleep(2)
+
+
+    while True:
+        pass
