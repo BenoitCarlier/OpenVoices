@@ -55,3 +55,4 @@ if __name__ == '__main__':
             sleep(2)
     except KeyboardInterrupt:
         record.terminate()
+        light_in_motion.terminate()

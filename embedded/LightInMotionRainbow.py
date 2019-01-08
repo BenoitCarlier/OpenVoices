@@ -27,3 +27,8 @@ class LightInMotionRainbow:
 
         rh.display.print_str(to_display)
         rh.display.show()
+
+    def terminate(self):
+        print("Terminate LightInMotionRainbow")
+        rh.rainbow.clear()
+        rh.display.clear()
