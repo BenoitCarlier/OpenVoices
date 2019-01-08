@@ -11,7 +11,7 @@ class Record:
         :param kwargs:
         """
         self.record_seconds = int(kwargs.get('record_seconds', 5))  # Record time
-        self.format = kwargs.get('format', pyaudio.paInt16)  # data type formate
+        self.format = kwargs.get('format', pyaudio.paInt16)  # data type format
         self.channels = int(kwargs.get('channels', 2))  # Adjust to your number of channels
         self.rate = int(kwargs.get('rate', 44100))  # Sample Rate
         self.chunk = int(kwargs.get('chunk', 1024))  # Block Size
@@ -33,20 +33,21 @@ class Record:
 
     def record(self, output_file):
         print("recording...")
-        frames = []
-
-        # Record for RECORD_SECONDS
-        for i in range(0, int(self.rate / self.chunk * self.record_seconds)):
-            data = self.stream.read(self.chunk)
-            frames.append(data)
-        print("finished recording")
 
         # Write your new .wav file with built in Python 3 Wave module
         waveFile = wave.open(output_file, 'wb')
         waveFile.setnchannels(self.channels)
         waveFile.setsampwidth(self.audio.get_sample_size(self.format))
         waveFile.setframerate(self.rate)
-        waveFile.writeframes(b''.join(frames))
+
+        # Record for RECORD_SECONDS
+        for i in range(0, int(self.rate / self.chunk * self.record_seconds)):
+            data = self.stream.read(self.chunk)
+            # frames.append(data)
+            waveFile.writeframes(data)
+        print("finished recording")
+
+        # waveFile.writeframes(b''.join(frames))
         waveFile.close()
 
     def terminate(self):

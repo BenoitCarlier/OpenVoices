@@ -32,17 +32,14 @@ MAP_EMOTION_2_COLOR = {
 }
 
 NUM_PIXEL = 8
-BRIGHTNESS = 0.2
+BRIGHTNESS = 0.1
 
 global recording_loop
 recording_loop = False
 global count
 count = 0
 
-global record, ml_analysis, light_in_motion, base_output_file
-
 if __name__ == '__main__':
-    global record, ml_analysis, light_in_motion, base_output_file
     ## Init modules
     record = Record(record_seconds=3, channels=1)  # because our mic has only one channel
     ml_analysis = MLAnalysis('knn', 'python_scripts/Models/knnEmotion7')
@@ -67,53 +64,65 @@ if __name__ == '__main__':
 
     signal.signal(signal.SIGINT, signal_handler)
 
+    led_red = False
+    led_green = False
+    led_blue = False
+
 
     ##
 
     ## Handle rainbow Touch button
     @rh.touch.A.press()
     def touch_a(channel):
-        print('Button A pressed')
-        rh.lights.rgb(1, 0, 0)
+        led_red = True
+        rh.lights.rgb(led_red, led_green, led_blue)
+        light_in_motion.change_brightness()
 
 
     @rh.touch.A.release()
     def release_a(channel):
-        print('Button A released')
-        rh.lights.rgb(0, 0, 0)
+        led_red = False
+        rh.lights.rgb(led_red, led_green, led_blue)
 
 
     @rh.touch.B.press()
     def touch_b(channel):
-        global record, ml_analysis, light_in_motion, base_output_file
-        rh.lights.rgb(0, 1, 0)
+        led_green = True
+        rh.lights.rgb(led_red, led_green, led_blue)
         wav_file = "{base}record_manual.wav".format(base=base_output_file)
-        record.record(current_wav)
+        record.record(wav_file)
         emotion = ml_analysis.get_emotion(wav_file)
-        light_in_motion.set_emotion(emotion)
 
         print()
-        print("File: {}".format(current_wav))
+        print("File: {}".format(wav_file))
         print("Emotion: {}".format(emotion))
+
+        light_in_motion.set_emotion(emotion)
+
+
+        led_green = False
+        rh.lights.rgb(led_red, led_green, led_blue)
 
 
     @rh.touch.B.release()
     def release_b(channel):
-        rh.lights.rgb(0, 0, 0)
+        pass
 
 
     @rh.touch.C.press()
     def touch_c(channel):
         global recording_loop, count
         recording_loop = not recording_loop
-        rh.lights.rgb(0, 0, recording_loop)
+
+        led_blue = recording_loop
+        rh.lights.rgb(led_red, led_green, led_blue)
+
         count = 0
 
 
     @rh.touch.C.release()
     def release_c(channel):
         pass
-
 
     ##
 
