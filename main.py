@@ -36,20 +36,24 @@ BRIGHTNESS = 0.2
 
 global recording_loop
 recording_loop = False
+global count
+count = 0
 
 if __name__ == '__main__':
+    ## Init modules
     record = Record(record_seconds=3, channels=1)  # because our mic has only one channel
     ml_analysis = MLAnalysis('knn', 'python_scripts/Models/knnEmotion7')
-
     # light_in_motion = LightInMotion(map_emotion_2_color=MAP_EMOTION_2_COLOR,
     #                                 num_pixels=NUM_PIXEL,
     #                                 brightness=BRIGHTNESS)
-
     light_in_motion = LightInMotionRainbow(map_emotion_2_color=MAP_EMOTION_2_COLOR,
                                            brightness=BRIGHTNESS)
-
     base_output_file = 'output_embedded/'
 
+
+    ##
+
+    ## Handle keyboard interrupt
     def signal_handler(signal, frame):
         print('\nYou pressed Ctrl+C! - EXIT')
         record.terminate()
@@ -61,6 +65,9 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_handler)
 
 
+    ##
+
+    ## Handle rainbow Touch button
     @rh.touch.A.press()
     def touch_a(channel):
         print('Button A pressed')
@@ -87,24 +94,12 @@ if __name__ == '__main__':
 
     @rh.touch.C.press()
     def touch_c(channel):
-        global recording_loop
+        global recording_loop, count
         print('Button C pressed')
-        print("recording_loop: {}".format(recording_loop))
-
-        rh.lights.rgb(0, 0, recording_loop)
         recording_loop = not recording_loop
+        rh.lights.rgb(0, 0, recording_loop)
         count = 0
-
-        while recording_loop:
-            current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
-            record.record(current_wav)
-            emotion = ml_analysis.get_emotion(current_wav)
-            light_in_motion.set_emotion(emotion)
-            print("Emotion: ", end="\t\t")
-            print(emotion)
-
-            count += 1
-            sleep(2)
+        print("recording_loop: {}".format(recording_loop))
 
 
     @rh.touch.C.release()
@@ -116,7 +111,16 @@ if __name__ == '__main__':
         pass
 
 
+    ##
+
     while 1:
-        pass
+        if recording_loop:
+            current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
+            record.record(current_wav)
+            emotion = ml_analysis.get_emotion(current_wav)
+            light_in_motion.set_emotion(emotion)
+            print("Emotion: ", end="\t\t")
+            print(emotion)
 
-
+            count += 1
+            sleep(2)
