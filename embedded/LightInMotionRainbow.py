@@ -23,7 +23,7 @@ class LightInMotionRainbow:
         if to_display == '-1':
             to_display = 'SHIT'
         else:
-            to_display = emotion[:4]
+            to_display = emotion[:4].upper()
 
         rh.display.print_str(to_display)
         rh.display.show()
