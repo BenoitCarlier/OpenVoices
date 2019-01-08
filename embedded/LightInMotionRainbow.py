@@ -7,6 +7,9 @@ class LightInMotionRainbow:
         self.map_emotion_2_color.setdefault('-1', 0x008080)
         self.brightness = brightness
 
+        rh.rainbow.clear()
+        rh.display.clear()
+
     def set_emotion(self, emotion):
         print("Set emotion {}".format(emotion))
         rgb = self.map_emotion_2_color[emotion]
@@ -21,5 +24,6 @@ class LightInMotionRainbow:
             to_display = 'SHIT'
         else:
             to_display = emotion[:4]
+
         rh.display.print_str(to_display)
         rh.display.show()
