@@ -14,4 +14,5 @@ class LightInMotionRainbow:
             rgb = (rgb & 255, (rgb >> 8) & 255, (rgb >> 16) & 255)
         print("Set color {}".format(rgb))
         rh.rainbow.set_all(*rgb, brightness=self.brightness)
+        rh.display.print_str(emotion[:4])
         rh.rainbow.show()
