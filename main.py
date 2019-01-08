@@ -59,6 +59,8 @@ if __name__ == '__main__':
 
     signal.signal(signal.SIGINT, signal_handler)
 
+    recording_loop = False
+
 
     @rh.touch.A.press()
     def touch_a(channel):
@@ -75,7 +77,7 @@ if __name__ == '__main__':
     @rh.touch.B.press()
     def touch_b(channel):
         print('Button B pressed')
-        rh.lights.rgb(1, 1, 0)
+        rh.lights.rgb(0, 1, 0)
 
 
     @rh.touch.B.release()
@@ -85,9 +87,10 @@ if __name__ == '__main__':
 
 
     @rh.touch.C.press()
-    def touch_b(channel):
+    def touch_c(channel):
         print('Button C pressed')
-        rh.lights.rgb(1, 1, 1)
+        rh.lights.rgb(0, 0, 1)
+        recording_loop = not recording_loop
 
 
     @rh.touch.C.release()
@@ -95,14 +98,13 @@ if __name__ == '__main__':
         print('Button C released')
         rh.lights.rgb(0, 0, 0)
 
+        while recording_loop:
+            current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
+            record.record(current_wav)
+            emotion = ml_analysis.get_emotion(current_wav)
+            light_in_motion.set_emotion(emotion)
+            print("Emotion: ", end="\t\t")
+            print(emotion)
 
-    while True:
-        current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
-        record.record(current_wav)
-        emotion = ml_analysis.get_emotion(current_wav)
-        light_in_motion.set_emotion(emotion)
-        print("Emotion: ", end="\t\t")
-        print(emotion)
-
-        count += 1
-        sleep(2)
+            count += 1
+            sleep(2)
