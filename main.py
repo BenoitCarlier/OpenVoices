@@ -91,31 +91,32 @@ if __name__ == '__main__':
         print('Button C pressed')
         print("recording_loop: {}".format(recording_loop))
 
-        rh.lights.rgb(0, 0, 1)
+        rh.lights.rgb(0, 0, recording_loop)
         recording_loop = not recording_loop
+        count = 0
+
+        while recording_loop:
+            current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
+            record.record(current_wav)
+            emotion = ml_analysis.get_emotion(current_wav)
+            light_in_motion.set_emotion(emotion)
+            print("Emotion: ", end="\t\t")
+            print(emotion)
+
+            count += 1
+            sleep(2)
 
 
     @rh.touch.C.release()
     def release_c(channel):
-        global recording_loop
-        print('Button C released')
-        print("recording_loop: {}".format(recording_loop))
-        rh.lights.rgb(0, 0, 0)
+        # global recording_loop
+        # print('Button C released')
+        # print("recording_loop: {}".format(recording_loop))
+        # rh.lights.rgb(0, 0, 0)
+        pass
 
 
-    count = 0
-
-    while True:
-        current_wav = "{base}record_{num}.wav".format(base=base_output_file, num=count)
-        record.record(current_wav)
-        emotion = ml_analysis.get_emotion(current_wav)
-        light_in_motion.set_emotion(emotion)
-        print("Emotion: ", end="\t\t")
-        print(emotion)
-
-        count += 1
-        sleep(2)
+    while 1:
+        pass
 
 
-    # while True:
-    #     pass

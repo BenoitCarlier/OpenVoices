@@ -7,17 +7,18 @@ class LightInMotionRainbow:
         self.map_emotion_2_color.setdefault('-1', 0x008080)
         self.brightness = brightness
 
-        rh.rainbow.clear()
-        rh.display.clear()
+        self.__clear()
+        self.__show()
 
     def set_emotion(self, emotion):
+        self.__clear()
+
         print("Set emotion {}".format(emotion))
         rgb = self.map_emotion_2_color[emotion]
         if not isinstance(rgb, tuple):
             rgb = (rgb & 255, (rgb >> 8) & 255, (rgb >> 16) & 255)
         print("Set color {}".format(rgb))
         rh.rainbow.set_all(*rgb, brightness=self.brightness)
-        rh.rainbow.show()
 
         to_display = emotion
         if to_display == '-1':
@@ -26,13 +27,20 @@ class LightInMotionRainbow:
             to_display = emotion[:4].upper()
 
         rh.display.print_str(to_display)
+
+        self.__show()
+
+    def __clear(self):
+        rh.rainbow.clear()
+        rh.display.clear()
+
+    def __show(self):
+        rh.rainbow.show()
         rh.display.show()
+
 
     def terminate(self):
-        rh.rainbow.clear()
-        rh.rainbow.show()
-
-        rh.display.clear()
-        rh.display.show()
+        self.__clear()
+        self.__show()
 
         print("LightInMotionRainbow: terminated")
